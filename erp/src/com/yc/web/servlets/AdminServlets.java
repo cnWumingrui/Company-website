@@ -49,13 +49,13 @@ public class AdminServlets extends BaseServlet {
 	
 	private void regOp(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		Admin admin = RequestUtils.parseRequest(request, Admin.class);
-		admin.setUserpassword(Encrypt.md5(admin.getUserpassword()));
+		admin.setAdmin_userpassword(Encrypt.md5(admin.getAdmin_userpassword()));
 		
 		JsonModel jm =new JsonModel();
 		
 		try {
 			DBUtil db =new DBUtil();
-			db.doUpdate("insert into admin(username,userpassword,join_time) values(?,?,now()) ", admin.getUsername(),admin.getUserpassword());
+			db.doUpdate("insert into admin(username,userpassword,join_time) values(?,?,now()) ", admin.getAdmin_username(),admin.getAdmin_userpassword());
 			jm.setCode(1);
 		} catch (Exception e) {
 			jm.setCode(0);
@@ -95,7 +95,7 @@ public class AdminServlets extends BaseServlet {
 		if (valcode.equals(sRand) == false) {
 			out.println("<script>alert('验证码错误!');</script>");
 			response.sendRedirect("login.html");
-		}else if (u==null || (u.getUsername() == null || u.getUsername().equals("")) || (u.getUserpassword() == null || u.getUserpassword().equals(""))) {
+		}else if (u==null || (u.getAdmin_username() == null || u.getAdmin_username().equals("")) || (u.getAdmin_userpassword() == null || u.getAdmin_userpassword().equals(""))) {
 			
 			out.println("<html><body><script>alert('用户名和密码不能为空');</script></body></html>");
 			response.sendRedirect("login.html");
@@ -104,7 +104,7 @@ public class AdminServlets extends BaseServlet {
 		}else{
 			UserBiz ub = new UserBiz();
 			try {
-				Admin admin = ub.login(u.getUsername(), u.getUserpassword());
+				Admin admin = ub.login(u.getAdmin_username(), u.getAdmin_userpassword());
 				if (admin != null) {
 					System.out.println(admin.toString());
 					//用转发跳转页面,观察转发的重复提交问题

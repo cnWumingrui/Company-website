@@ -43,7 +43,7 @@ public class UploadServlet extends HttpServlet {
 			Admin admin = (Admin) request.getSession().getAttribute("admin");
 			db.doUpdate("insert into product(Product_picture,Product_class,Product_name,Product_in,Product_explain,Product_auditing,index_show,join_date,change_date) values(?,?,?,?,?,?,1,now(),now())", 
 					 map.get("product_picture_relativepath")
-					 ,p.getProduct_class(),p.getProduct_name(),p.getProduct_in(),p.getProduct_explain(),admin.getId());
+					 ,p.getProduct_class(),p.getProduct_name(),p.getProduct_in(),p.getProduct_explain(),admin.getAdmin_id());
 			
 			jm.setCode(1);
 		} catch (Exception e) {
